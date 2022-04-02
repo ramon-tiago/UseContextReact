@@ -9,40 +9,55 @@ import {
   InputLabel,
   InputAdornment 
 } from '@material-ui/core';
+import { useHistory } from 'react-router-dom';
+import { UsuarioContex } from 'common/context/Usuario';
 
 function Login() {
+  
+  const history = useHistory()
   return (
     <Container>
-      <Titulo>
-        Insira o seu nome
-      </Titulo>
-      <InputContainer>
-        <InputLabel>
-          Nome
-        </InputLabel>
-        <Input
-          type="text"
-        />
-      </InputContainer>
-      <InputContainer>
-        <InputLabel>
-          Saldo
-        </InputLabel>
-        <Input
-        type="number"
-        startAdornment={
-          <InputAdornment position="start">
-            R$
-          </InputAdornment>
-        }
-      />
-      </InputContainer>
-      <Button
-        variant="contained"
-        color="primary"
-      >
-        Avançar
-      </Button>
+      <UsuarioContex.Consumer>
+        {({ nome, setNome, saldo, setSaldo }) => (
+          <>
+            <Titulo>
+              Insira o seu nome
+            </Titulo>
+            <InputContainer>
+              <InputLabel>
+                Nome
+              </InputLabel>
+              <Input
+              value={nome}
+              onChange={ev => setNome(ev.target.value)}
+                type="text"
+              />
+            </InputContainer>
+            <InputContainer>
+              <InputLabel>
+                Saldo
+              </InputLabel>
+              <Input
+              type="number"
+              value={saldo}
+              onChange={ev => setSaldo(ev.target.value)}
+              startAdornment={
+                <InputAdornment position="start">
+                  R$
+                </InputAdornment>
+              }
+            />
+            </InputContainer>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => history.push("/feira")}
+            >
+              Avançar
+            </Button>
+          </>
+        )}
+      </UsuarioContex.Consumer>
     </Container>
   )
 };
